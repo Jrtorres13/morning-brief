@@ -1,1 +1,5 @@
-{ "build": 1, "notes": "" }
+{
+    "build":  2,
+    "notes":  "Plan my day now reads your Claude work (no API), plus a Refresh button",
+    "date":  "2026-11-02"
+}

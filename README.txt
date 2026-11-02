@@ -7,16 +7,16 @@ INSTALL (Windows 10/11, about 1 minute)
    (If Windows says "protected your PC": More info > Run anyway.)
 3. Done. It opens now, and every time you sign in.
 
-FIRST-TIME SETUP (inside the app > Settings)
-1. Name: your first name.
-2. Claude API key: console.anthropic.com > API Keys > Create key.
-   Powers "Plan my day" and "Paste notes". Each plan costs a few cents.
-3. Connect your Claude work:
-   claude.ai > Settings > Privacy > Export data.
-   You get an email with download links. Download the
-   "projects" and "conversations" zip files, then pick both
-   in Settings > Choose files (no need to unzip).
-   Redo this weekly to stay fresh.
+FIRST-TIME SETUP
+- Nothing to do on your PC: the Claude feed key is set up for you.
+- Phone: open the one-time setup link Claude sent you (it saves the key).
+
+HOW IT KNOWS YOUR CLAUDE WORK (no API, no cost)
+- Every morning a scheduled Claude task reads your Claude sessions,
+  Notion "Main Brain" and GitHub work, picks today's tasks, and saves
+  them as an encrypted file the app downloads.
+- Plan my day: uses that file to pick what to do NOW + today's list.
+- Refresh: gets the newest file plus your latest GitHub commits.
 
 DAILY USE
 - Plan my day: Claude picks what to start NOW + suggests today's list.
@@ -33,8 +33,10 @@ DAILY USE
 
 PRIVACY
 - Everything is saved only on this PC (%LOCALAPPDATA%\MorningBrief).
-- Only "Plan my day" / "Paste notes" send your task list, project names
-  and recent chat titles/snippets to the Claude API.
+- The Claude feed is encrypted. The GitHub repo is public, but without
+  your key it is unreadable.
+- "Paste notes" and the recap still use the Claude API only if you add
+  an API key in Settings (optional).
 
 UPDATE: unzip the new version and run Install.bat again. Your tasks stay.
 REMOVE: run Uninstall.bat.
