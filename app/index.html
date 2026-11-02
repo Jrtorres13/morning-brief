@@ -1,0 +1,1374 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morning Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Themes ---------- */
+:root, [data-theme="aurora"]{
+  --bg:#070B16;
+  --bg-grad: radial-gradient(1100px 680px at -5% -10%, rgba(20,184,166,.34), transparent 60%),
+             radial-gradient(900px 700px at 105% 105%, rgba(124,58,237,.36), transparent 60%),
+             radial-gradient(700px 480px at 70% -5%, rgba(59,130,246,.16), transparent 60%),
+             linear-gradient(160deg,#070B16,#0C1024);
+  --glass:rgba(255,255,255,.055); --glass-2:rgba(255,255,255,.09); --glass-border:rgba(255,255,255,.11);
+  --dialog:rgba(16,22,40,.92);
+  --fg:#E8EEF9; --muted:#9FAAC2; --accent:#2DD4BF; --accent-2:#A78BFA; --on-accent:#03201C;
+  --high:#FB7185; --med:#FBBF24; --low:#94A3B8; --line:rgba(255,255,255,.08); --shadow:0 20px 50px -20px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+[data-theme="ember"]{
+  --bg:#0F0A0A;
+  --bg-grad: radial-gradient(1100px 680px at -5% -10%, rgba(234,88,12,.32), transparent 60%),
+             radial-gradient(900px 700px at 105% 105%, rgba(190,24,93,.30), transparent 60%),
+             radial-gradient(600px 420px at 60% 0%, rgba(245,158,11,.12), transparent 60%),
+             linear-gradient(160deg,#0F0A0A,#1A0E12);
+  --dialog:rgba(34,18,18,.93);
+  --fg:#F7EDE7; --muted:#C4ADA3; --accent:#FB923C; --accent-2:#F472B6; --on-accent:#2A1004;
+  color-scheme:dark;
+}
+[data-theme="nebula"]{
+  --bg:#0A0918;
+  --bg-grad: radial-gradient(1100px 680px at -5% -10%, rgba(99,102,241,.40), transparent 60%),
+             radial-gradient(900px 700px at 105% 105%, rgba(236,72,153,.28), transparent 60%),
+             radial-gradient(600px 420px at 55% 0%, rgba(56,189,248,.12), transparent 60%),
+             linear-gradient(160deg,#0A0918,#120F2A);
+  --dialog:rgba(22,20,48,.93);
+  --fg:#ECEBFF; --muted:#ADAAD2; --accent:#A5B4FC; --accent-2:#F472B6; --on-accent:#0E0F33;
+  color-scheme:dark;
+}
+[data-theme="dawn"]{
+  --bg:#E7E8E2;
+  --bg-grad: radial-gradient(1000px 640px at -5% -10%, rgba(13,148,136,.15), transparent 60%),
+             radial-gradient(900px 700px at 105% 105%, rgba(234,88,12,.11), transparent 60%),
+             radial-gradient(600px 420px at 60% 0%, rgba(139,92,246,.08), transparent 60%),
+             linear-gradient(160deg,#E9EAE4,#E2E0E8);
+  --glass:rgba(246,246,242,.66); --glass-2:rgba(255,255,255,.72); --glass-border:rgba(30,36,48,.09);
+  --dialog:rgba(244,244,240,.97);
+  --fg:#1E2430; --muted:#535C6C; --accent:#0F766E; --accent-2:#C2410C; --on-accent:#FFFFFF;
+  --high:#BE123C; --med:#B45309; --low:#64748B; --line:rgba(30,36,48,.09); --shadow:0 20px 50px -24px rgba(30,36,48,.25);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: light){
+  [data-theme="auto"]{
+    --bg:#E7E8E2;
+    --bg-grad: radial-gradient(1000px 640px at -5% -10%, rgba(13,148,136,.15), transparent 60%),
+               radial-gradient(900px 700px at 105% 105%, rgba(234,88,12,.11), transparent 60%),
+               radial-gradient(600px 420px at 60% 0%, rgba(139,92,246,.08), transparent 60%),
+               linear-gradient(160deg,#E9EAE4,#E2E0E8);
+    --glass:rgba(246,246,242,.66); --glass-2:rgba(255,255,255,.72); --glass-border:rgba(30,36,48,.09);
+    --dialog:rgba(244,244,240,.97);
+    --fg:#1E2430; --muted:#535C6C; --accent:#0F766E; --accent-2:#C2410C; --on-accent:#FFFFFF;
+    --high:#BE123C; --med:#B45309; --low:#64748B; --line:rgba(30,36,48,.09); --shadow:0 20px 50px -24px rgba(30,36,48,.25);
+    color-scheme:light;
+  }
+}
+
+/* ---------- Base ---------- */
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--fg);background:var(--bg-grad);background-attachment:fixed;
+  font-family:"DM Sans","Segoe UI Variable","Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 48px}
+.icon{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Header ---------- */
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.brand{display:flex;align-items:center;gap:14px}
+.mark{width:46px;height:46px;flex:none}
+h1{font-size:28px;margin:0;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.grad-text{background:linear-gradient(90deg,var(--fg) 0%,var(--accent) 60%,var(--accent-2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);margin-top:2px;font-size:14px}
+.hdr-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* ---------- Cards ---------- */
+.glass{background:var(--glass);border:1px solid var(--glass-border);border-radius:18px;
+  backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:var(--shadow)}
+.card{padding:18px}
+.stack{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.card h2{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0 0 14px;font-weight:700;
+  display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.h2-actions{display:flex;gap:6px;text-transform:none;letter-spacing:0}
+
+/* ---------- Buttons & inputs ---------- */
+.btn{border:1px solid var(--glass-border);background:var(--glass-2);border-radius:12px;padding:8px 13px;display:inline-flex;align-items:center;gap:7px;
+  font-weight:500;transition:background .18s,border-color .18s,transform .18s,box-shadow .18s;white-space:nowrap}
+.btn:hover{border-color:color-mix(in srgb,var(--accent) 45%,transparent);background:color-mix(in srgb,var(--accent) 10%,var(--glass-2))}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 78%,var(--accent-2)));border-color:transparent;color:var(--on-accent);font-weight:700;
+  box-shadow:0 8px 24px -10px color-mix(in srgb,var(--accent) 70%,transparent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.ghost:hover{background:var(--glass-2)}
+.btn.small{padding:5px 9px;font-size:13px;border-radius:10px}
+.btn.icon-only{padding:7px}
+.btn:disabled{opacity:.5;cursor:default;transform:none}
+.btn.due{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.btn .badge{width:8px;height:8px;border-radius:50%;background:var(--accent-2)}
+input[type=text],input[type=password],input[type=number],input[type=time],select,textarea{border:1px solid var(--glass-border);background:var(--glass-2);border-radius:12px;padding:9px 11px;min-width:0;transition:border-color .18s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none}
+select option{background:var(--bg);color:var(--fg)}
+textarea{width:100%;min-height:96px;resize:vertical}
+::placeholder{color:var(--muted);opacity:.85}
+
+/* ---------- Hero / focus ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;padding:22px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(135deg,var(--accent),transparent 40%,transparent 60%,var(--accent-2));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+@media (max-width:560px){.hero{grid-template-columns:1fr}.ring-wrap{justify-self:center}}
+.eyebrow{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.12em}
+.now-title{font-size:24px;font-weight:700;margin:6px 0 4px;letter-spacing:-.01em;overflow-wrap:anywhere}
+.now-why{color:var(--muted)}
+.row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.ring-wrap{position:relative;width:148px;height:148px}
+.ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{stroke:var(--line);stroke-width:9;fill:none}
+.ring-fg{stroke:url(#ringGrad);stroke-width:9;fill:none;stroke-linecap:round;transition:stroke-dashoffset .9s linear}
+.ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.ring-time{font-size:30px;font-weight:700;letter-spacing:-.02em}
+.ring-sub{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.ring-btns{display:flex;gap:6px;justify-content:center;margin-top:8px}
+
+/* ---------- Tasks ---------- */
+.progress{display:flex;align-items:center;gap:10px;font-size:12.5px}
+.bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;width:110px}
+.bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;transition:width .4s ease}
+.add{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.add input[type=text]{flex:1 1 220px}
+ul.tasks{list-style:none;margin:0;padding:0}
+ul.tasks li{display:flex;align-items:center;gap:12px;padding:10px 8px;border-radius:12px;transition:background .18s}
+ul.tasks li + li{border-top:1px solid var(--line)}
+ul.tasks li:hover{background:var(--glass-2)}
+ul.tasks li.done .t-title{text-decoration:line-through;color:var(--muted)}
+ul.tasks li.focusing{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.check{width:22px;height:22px;border-radius:7px;border:2px solid var(--accent);background:transparent;display:grid;place-items:center;padding:0;flex:none;transition:background .18s,transform .18s}
+.check:hover{transform:scale(1.08)}
+li.done .check{background:var(--accent);color:var(--on-accent)}
+.t-main{flex:1;min-width:0}
+.t-title{overflow-wrap:anywhere;font-weight:500}
+.t-meta{font-size:12.5px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;margin-top:2px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle}
+.p-high{background:var(--high)} .p-med{background:var(--med)} .p-low{background:var(--low)}
+.chip{font-size:12px;padding:1px 9px;border-radius:99px;background:var(--glass-2);border:1px solid var(--glass-border);color:var(--fg)}
+.t-actions{display:flex;gap:2px;opacity:.55;transition:opacity .18s}
+li:hover .t-actions, li:focus-within .t-actions{opacity:1}
+.empty{color:var(--muted);text-align:center;padding:20px 8px;font-size:14px}
+details summary{cursor:pointer;color:var(--muted);font-size:13px;margin-top:10px}
+
+/* ---------- Timeline ---------- */
+.timeline{position:relative;margin-left:64px;border-left:1px solid var(--line)}
+.tl-scroll{max-height:440px;overflow-y:auto;overflow-x:hidden;padding:10px 4px 0 0;scrollbar-width:thin}
+.tl-hour{position:absolute;left:-64px;right:0;height:0;border-top:1px dashed var(--line)}
+.tl-hour span{position:absolute;left:0;top:-9px;font-size:11.5px;color:var(--muted);width:56px;text-align:right;white-space:nowrap}
+.tl-block{position:absolute;border-radius:10px;padding:5px 9px;font-size:12.5px;overflow:hidden;cursor:pointer;border:1px solid var(--glass-border);
+  background:color-mix(in srgb,var(--c) 20%,var(--glass-2));border-left:3px solid var(--c);transition:transform .18s,box-shadow .18s;text-align:left;
+  display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
+.tl-block:hover{transform:translateX(2px);box-shadow:0 6px 18px -8px rgba(0,0,0,.4)}
+.tl-block b{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-block .small{flex:none;white-space:nowrap}
+.tl-block.done{opacity:.5}
+.tl-block.done b{text-decoration:line-through}
+.tl-now{position:absolute;left:-5px;right:0;height:2px;background:var(--accent-2);z-index:2}
+.tl-now::before{content:"";position:absolute;left:0;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--accent-2)}
+
+/* ---------- Side lists ---------- */
+.sugg,.proj{padding:11px 2px;display:flex;gap:10px;align-items:flex-start}
+.sugg + .sugg,.proj + .proj{border-top:1px solid var(--line)}
+.proj{flex-direction:column;gap:2px}
+.proj-head{display:flex;justify-content:space-between;gap:8px;align-items:baseline;width:100%}
+.proj-name{font-weight:600;overflow-wrap:anywhere}
+.small{font-size:12.5px;color:var(--muted)}
+.next{font-size:13.5px;margin-top:2px}
+.tip{background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px}
+
+/* ---------- Dialogs ---------- */
+dialog{border:1px solid var(--glass-border);border-radius:20px;background:var(--dialog);color:var(--fg);padding:0;width:min(580px,calc(100vw - 32px));max-height:calc(100vh - 40px);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.6);backdrop-filter:blur(20px)}
+dialog[open]{animation:pop .22s cubic-bezier(.2,.8,.2,1)}
+dialog::backdrop{background:rgba(5,8,16,.55);backdrop-filter:blur(3px)}
+.dlg{padding:22px}
+.dlg h3{margin:0 0 14px;font-size:19px;letter-spacing:-.01em}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:13px;min-width:0}
+.field label,.field .lbl{font-size:13px;font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font-size:12.5px;color:var(--muted)}
+.dlg-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px;flex-wrap:wrap}
+.dlg-actions .spacer{flex:1}
+.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.theme-opt{border:2px solid var(--glass-border);border-radius:14px;padding:0;overflow:hidden;background:none;text-align:left}
+.theme-opt[aria-pressed="true"]{border-color:var(--accent)}
+.theme-opt i{display:block;height:46px}
+.theme-opt span{display:block;padding:5px 9px;font-size:12.5px;font-weight:600}
+.days{display:flex;gap:6px;flex-wrap:wrap}
+.day{border:1px solid var(--glass-border);background:var(--glass-2);border-radius:99px;padding:4px 11px;font-size:13px}
+.day[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:transparent;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--glass-2);border:1px solid var(--glass-border);border-radius:14px;padding:12px;text-align:center}
+.stat b{display:block;font-size:26px;letter-spacing:-.02em}
+.stat span{font-size:12px;color:var(--muted)}
+.recap-list{margin:6px 0 12px;padding-left:20px}
+.recap-list li{margin:3px 0}
+
+/* ---------- Toast ---------- */
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,10px);background:var(--fg);color:var(--bg);padding:11px 18px;border-radius:12px;font-size:14px;font-weight:500;
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:calc(100vw - 32px);z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- Motion ---------- */
+@keyframes pop{from{opacity:0;transform:scale(.96) translateY(6px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin 1s linear infinite}
+.reveal{animation:rise .65s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--base,0s) + var(--i,0) * 80ms)}
+body.intro{--base:1.55s}
+
+/* Splash */
+#splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg-grad),var(--bg);transition:opacity .5s ease,visibility .5s}
+#splash.hide{opacity:0;visibility:hidden}
+.splash-inner{display:flex;flex-direction:column;align-items:center;gap:18px}
+.splash-mark{width:120px;height:120px;overflow:visible}
+.s-sun{animation:sunrise 1s cubic-bezier(.2,.8,.2,1) both}
+.s-line{stroke-dasharray:70;stroke-dashoffset:70;animation:draw .7s .25s ease-out forwards}
+.s-check{stroke-dasharray:40;stroke-dashoffset:40;animation:draw .45s .75s ease-out forwards}
+.s-ray{opacity:0;animation:fade .5s .55s ease-out forwards}
+.splash-text{font-size:26px;font-weight:700;letter-spacing:-.02em;animation:rise .6s .55s cubic-bezier(.2,.8,.2,1) both}
+.splash-sub{color:var(--muted);font-size:14px;margin-top:-10px;animation:rise .6s .7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes sunrise{from{transform:translateY(26px);opacity:0}to{transform:none;opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .s-line,.s-check{stroke-dashoffset:0}.s-ray{opacity:1}
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="splash" aria-hidden="true">
+  <div class="splash-inner">
+    <svg class="splash-mark" viewBox="0 0 64 64"><use href="#logo"/></svg>
+    <div class="splash-text grad-text" id="splashText">Good morning</div>
+    <div class="splash-sub" id="splashSub"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="reveal" style="--i:0">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#logo"/></svg>
+      <div>
+        <h1 class="grad-text" id="greet">Good morning</h1>
+        <div class="sub"><span id="today"></span> · <span class="num" id="clock"></span></div>
+      </div>
+    </div>
+    <div class="hdr-actions">
+      <button class="btn" id="btnPaste" title="Turn notes into tasks"><svg class="icon"><use href="#i-clip"/></svg>Paste notes</button>
+      <button class="btn" id="btnRepeat" title="Repeating tasks"><svg class="icon"><use href="#i-repeat"/></svg>Repeating</button>
+      <button class="btn" id="btnRecap" title="End-of-day recap"><svg class="icon"><use href="#i-moon"/></svg>Wrap up day</button>
+      <button class="btn icon-only" id="btnSettings" aria-label="Settings" title="Settings"><svg class="icon"><use href="#i-gear"/></svg></button>
+    </div>
+  </header>
+
+  <section class="glass hero reveal" style="--i:1" aria-live="polite">
+    <div>
+      <div class="eyebrow">Start here</div>
+      <div class="now-title" id="nowTitle">Add your first task</div>
+      <div class="now-why" id="nowWhy">Or press "Plan my day" and Claude will suggest one.</div>
+      <div class="row">
+        <button class="btn primary" id="btnPlan"><svg class="icon" id="planIcon"><use href="#i-spark"/></svg><span>Plan my day</span></button>
+        <button class="btn" id="btnNowDone" hidden><svg class="icon"><use href="#i-check"/></svg>Done, what's next?</button>
+      </div>
+    </div>
+    <div class="ring-wrap-outer">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--accent-2)"/></linearGradient></defs>
+          <circle class="ring-bg" cx="60" cy="60" r="52"/>
+          <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="0"/>
+        </svg>
+        <div class="ring-label"><div class="ring-time num" id="ringTime">30:00</div><div class="ring-sub" id="ringSub">Focus</div></div>
+      </div>
+      <div class="ring-btns">
+        <button class="btn small primary" id="btnFocus"><svg class="icon" style="width:15px;height:15px"><use href="#i-play"/></svg><span>Start focus</span></button>
+        <button class="btn small" id="btnFocusReset" hidden aria-label="Stop timer" title="Stop timer"><svg class="icon" style="width:15px;height:15px"><use href="#i-stop"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="stack">
+      <section class="glass card reveal" style="--i:2">
+        <h2><span>Today</span><span class="progress"><span class="num" id="progText">0 of 0</span><span class="bar"><i id="progBar"></i></span></span></h2>
+        <form class="add" id="addForm">
+          <label class="sr" for="addTitle">New task</label>
+          <input type="text" id="addTitle" placeholder="Add a task… (press Enter)" autocomplete="off">
+          <label class="sr" for="addProject">Project</label>
+          <input type="text" id="addProject" list="projList" placeholder="Project" style="flex:0 1 140px">
+          <datalist id="projList"></datalist>
+          <label class="sr" for="addPri">Priority</label>
+          <select id="addPri"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select>
+          <button class="btn primary" type="submit"><svg class="icon"><use href="#i-plus"/></svg>Add</button>
+        </form>
+        <ul class="tasks" id="taskList"></ul>
+        <details id="doneWrap"><summary id="doneSummary">Finished</summary><ul class="tasks" id="doneList"></ul></details>
+      </section>
+
+      <section class="glass card reveal" style="--i:4" id="planCard" hidden>
+        <h2><span>Claude suggests</span><span class="h2-actions"><button class="btn small" id="btnAddAll">Add all</button></span></h2>
+        <div id="suggList"></div>
+        <div class="tip" id="planTip" hidden></div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="glass card reveal" style="--i:3">
+        <h2><span>Time blocks</span><span class="h2-actions">
+          <button class="btn small" id="btnAutoFill" title="Put unscheduled tasks into open time"><svg class="icon" style="width:15px;height:15px"><use href="#i-wand"/></svg>Auto-fill</button>
+          <button class="btn small ghost" id="btnClearTimes" title="Remove all times">Clear</button></span></h2>
+        <div class="tl-scroll" id="tlScroll"><div class="timeline" id="timeline"></div></div>
+      </section>
+
+      <section class="glass card reveal" style="--i:5">
+        <h2><span>Your projects</span><span class="h2-actions"><button class="btn small" id="btnAddProj"><svg class="icon" style="width:15px;height:15px"><use href="#i-plus"/></svg>Add</button></span></h2>
+        <div id="projListEl"></div>
+      </section>
+
+      <section class="glass card reveal" style="--i:6" id="chatsCard" hidden>
+        <h2><span>Recent Claude chats</span><span class="small" id="chatsFrom" style="text-transform:none;letter-spacing:0"></span></h2>
+        <div id="chatList"></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- Settings -->
+<dialog id="dlgSettings"><form class="dlg" method="dialog" id="settingsForm">
+  <h3>Settings</h3>
+  <div class="field"><span class="lbl">Theme</span><div class="themes" id="themePicker"></div></div>
+  <div class="field"><label for="sName">Your name</label><input type="text" id="sName"></div>
+  <div class="field"><label for="sKey">Claude API key</label><input type="password" id="sKey" placeholder="sk-ant-…" autocomplete="off">
+    <span class="hint">Powers "Plan my day", "Paste notes" and the recap. Get one at console.anthropic.com → API Keys. Stored only on this PC.</span></div>
+  <div class="two">
+    <div class="field"><label for="sStart">Work starts</label><input type="time" id="sStart"></div>
+    <div class="field"><label for="sEnd">Work ends</label><input type="time" id="sEnd"></div>
+  </div>
+  <div class="two">
+    <div class="field"><label for="sFocus">Focus timer (minutes)</label><input type="number" id="sFocus" min="5" max="120" step="1"></div>
+    <div class="field"><label for="sModel">Claude model</label><input type="text" id="sModel"></div>
+  </div>
+  <div class="field" style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="sIntro"><label for="sIntro" style="font-weight:500">Play the opening animation</label></div>
+  <div class="field"><span class="lbl">Connect your Claude work</span>
+    <span class="hint">claude.ai → Settings → Privacy → Export data. Download the <b>projects</b> and <b>conversations</b> zip files, then pick both here (no need to unzip). Redo weekly to refresh.</span>
+    <input type="file" id="sImport" accept=".zip,.json,.jsonl,application/zip,application/json" multiple>
+  </div>
+  <div class="dlg-actions">
+    <button class="btn small" type="button" id="btnBackup">Back up</button>
+    <button class="btn small" type="button" id="btnRestore">Restore</button>
+    <input type="file" id="restoreFile" accept=".json" hidden>
+    <span class="spacer"></span>
+    <button class="btn" type="button" data-close>Cancel</button>
+    <button class="btn primary" value="save">Save</button>
+  </div>
+</form></dialog>
+
+<!-- Task edit -->
+<dialog id="dlgTask"><form class="dlg" method="dialog">
+  <h3>Edit task</h3>
+  <div class="field"><label for="tTitle">Task</label><input type="text" id="tTitle"></div>
+  <div class="two">
+    <div class="field"><label for="tProject">Project</label><input type="text" id="tProject" list="projList"></div>
+    <div class="field"><label for="tPri">Priority</label><select id="tPri"><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option></select></div>
+  </div>
+  <div class="two">
+    <div class="field"><label for="tStart">Start time</label><input type="time" id="tStart"></div>
+    <div class="field"><label for="tMin">Minutes</label><input type="number" id="tMin" min="1" step="1"></div>
+  </div>
+  <div class="dlg-actions"><button class="btn" type="button" id="btnTaskDel">Delete</button><span class="spacer"></span><button class="btn" type="button" data-close>Cancel</button><button class="btn primary" value="save">Save</button></div>
+</form></dialog>
+
+<!-- Paste notes -->
+<dialog id="dlgPaste"><form class="dlg" method="dialog">
+  <h3>Paste notes → tasks</h3>
+  <p class="hint" style="margin-top:0">Paste a Claude reply, meeting notes or an email. Tip: ask Claude in any project "What are my next steps here?" and paste the answer.</p>
+  <textarea id="pasteText" placeholder="Paste here…"></textarea>
+  <div class="field" style="margin-top:12px"><label for="pasteProj">Project (optional)</label><input type="text" id="pasteProj" list="projList"></div>
+  <div class="dlg-actions"><button class="btn" type="button" data-close>Cancel</button><button class="btn primary" type="button" id="btnExtract">Make tasks</button></div>
+</form></dialog>
+
+<!-- Project edit -->
+<dialog id="dlgProj"><form class="dlg" method="dialog">
+  <h3 id="projDlgTitle">Project</h3>
+  <div class="field"><label for="pName">Name</label><input type="text" id="pName"></div>
+  <div class="field"><label for="pNext">Next step</label><input type="text" id="pNext" placeholder="What's the very next thing to do?"></div>
+  <div class="field"><label for="pDesc">Notes</label><textarea id="pDesc" style="min-height:64px"></textarea></div>
+  <div class="dlg-actions"><button class="btn" type="button" id="btnProjDel">Delete</button><span class="spacer"></span><button class="btn" type="button" data-close>Cancel</button><button class="btn primary" value="save">Save</button></div>
+</form></dialog>
+
+<!-- Repeating tasks -->
+<dialog id="dlgRepeat"><form class="dlg" method="dialog" id="repeatForm">
+  <h3>Repeating tasks</h3>
+  <p class="hint" style="margin-top:0">These add themselves to your list on the days you pick.</p>
+  <div id="repeatList"></div>
+  <div class="glass" style="padding:14px;margin-top:12px;box-shadow:none">
+    <div class="field"><label for="rTitle">New repeating task</label><input type="text" id="rTitle" placeholder="e.g. Check email and DMs"></div>
+    <div class="two">
+      <div class="field"><label for="rProject">Project</label><input type="text" id="rProject" list="projList"></div>
+      <div class="field"><label for="rPri">Priority</label><select id="rPri"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select></div>
+    </div>
+    <div class="two">
+      <div class="field"><label for="rStart">Time (optional)</label><input type="time" id="rStart"></div>
+      <div class="field"><label for="rMin">Minutes</label><input type="number" id="rMin" min="1" step="1" value="30"></div>
+    </div>
+    <div class="field"><span class="lbl">Days</span><div class="days" id="rDays"></div></div>
+    <div class="dlg-actions" style="margin-top:0"><button class="btn primary" type="button" id="btnRepeatAdd"><svg class="icon"><use href="#i-plus"/></svg>Add repeating task</button></div>
+  </div>
+  <div class="dlg-actions"><button class="btn" type="button" data-close>Close</button></div>
+</form></dialog>
+
+<!-- Recap -->
+<dialog id="dlgRecap"><form class="dlg" method="dialog">
+  <h3 id="recapTitle">Your day</h3>
+  <div class="stats">
+    <div class="stat"><b class="num" id="rcDone">0</b><span>tasks done</span></div>
+    <div class="stat"><b class="num" id="rcFocus">0</b><span>focus minutes</span></div>
+    <div class="stat"><b class="num" id="rcOpen">0</b><span>rolling to tomorrow</span></div>
+  </div>
+  <div id="recapBody"></div>
+  <div class="field" style="margin-top:6px"><label for="rcTomorrow">First thing tomorrow</label><input type="text" id="rcTomorrow" placeholder="What should you start with tomorrow?"></div>
+  <div class="dlg-actions">
+    <button class="btn" type="button" id="btnRecapAI"><svg class="icon"><use href="#i-spark"/></svg><span>Ask Claude for a recap</span></button>
+    <span class="spacer"></span>
+    <button class="btn" type="button" data-close>Close</button>
+    <button class="btn primary" type="button" id="btnRecapSave">Set for tomorrow</button>
+  </div>
+</form></dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="logoGrad" gradientUnits="userSpaceOnUse" x1="4" y1="6" x2="60" y2="58"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--accent-2)"/></linearGradient>
+  </defs>
+  <symbol id="logo" viewBox="0 0 64 64">
+    <g class="s-ray" stroke="url(#logoGrad)" stroke-width="3.2" stroke-linecap="round">
+      <path d="M32 6v6M13 14l4 4M51 14l-4 4M6 33h6M52 33h6"/>
+    </g>
+    <g class="s-sun"><circle cx="32" cy="36" r="17" fill="url(#logoGrad)"/></g>
+    <path class="s-check" d="M24 36l6 6 11-12" stroke="var(--on-accent)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="s-line" d="M4 56h56" stroke="url(#logoGrad)" stroke-width="3.2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m7 4 13 8-13 8z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-wand" viewBox="0 0 24 24"><path d="m15 4 5 5L9 20H4v-5z"/><path d="M13 6l5 5"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17l.8 2.2L22 20l-2.2.8L19 23l-.8-2.2L16 20l2.2-.8z"/></symbol>
+  <symbol id="i-loader" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+</svg>
+
+<script>
+"use strict";
+const KEY = "morningBrief.v1";
+const DEFAULT_MODEL = "claude-sonnet-5-5";
+const DEFAULT_NAME = "Rubirosa";
+const THEMES = [
+  { id: "auto",   name: "Match Windows", sw: "linear-gradient(135deg,#0C1024 50%,#E7E8E2 50%)" },
+  { id: "aurora", name: "Aurora",  sw: "radial-gradient(circle at 0 0,#14B8A6,transparent 70%),radial-gradient(circle at 100% 100%,#7C3AED,transparent 70%),#070B16" },
+  { id: "ember",  name: "Ember",   sw: "radial-gradient(circle at 0 0,#EA580C,transparent 70%),radial-gradient(circle at 100% 100%,#BE185D,transparent 70%),#0F0A0A" },
+  { id: "nebula", name: "Nebula",  sw: "radial-gradient(circle at 0 0,#6366F1,transparent 70%),radial-gradient(circle at 100% 100%,#EC4899,transparent 70%),#0A0918" },
+  { id: "dawn",   name: "Dawn (light)", sw: "radial-gradient(circle at 0 0,rgba(13,148,136,.35),transparent 70%),radial-gradient(circle at 100% 100%,rgba(234,88,12,.25),transparent 70%),#E7E8E2" }
+];
+const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const $ = s => document.querySelector(s);
+// Escape closes a dialog without touching returnValue, so clear it on every open
+// (otherwise a previous "save" would be replayed when the user presses Escape).
+const _showModal = HTMLDialogElement.prototype.showModal;
+HTMLDialogElement.prototype.showModal = function () { this.returnValue = ""; return _showModal.call(this); };
+const uid = () => Math.random().toString(36).slice(2, 10);
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const tomorrowKey = () => { const d = new Date(); d.setDate(d.getDate() + 1); return dayKey(d); };
+const PRI = { high: 0, med: 1, low: 2 };
+const PRI_LABEL = { high: "High", med: "Medium", low: "Low" };
+const PRI_VAR = { high: "var(--high)", med: "var(--med)", low: "var(--low)" };
+
+const toMin = hhmm => { const m = /^(\d{1,2}):(\d{2})/.exec(hhmm || ""); return m && +m[1] < 24 && +m[2] < 60 ? (+m[1]) * 60 + (+m[2]) : null; };
+const toHHMM = min => `${String(Math.floor(min / 60) % 24).padStart(2, "0")}:${String(min % 60).padStart(2, "0")}`;
+let S = load();
+
+function load() {
+  let s = null;
+  try { s = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  s = s || {};
+  s.settings = Object.assign({ name: "", apiKey: "", model: DEFAULT_MODEL, start: "09:00", end: "17:00", theme: "aurora", focusMin: 30, intro: true }, s.settings);
+  // older versions
+  if (s.settings.theme === "" ) s.settings.theme = "auto";
+  if (s.settings.theme === "dark") s.settings.theme = "aurora";
+  if (s.settings.theme === "light") s.settings.theme = "dawn";
+  if (!s.settings.name || /^rub(i|y)$/i.test(s.settings.name.trim())) s.settings.name = DEFAULT_NAME;
+  const okId = v => String(v ?? "").replace(/[^\w-]/g, "") || uid();
+  const okPri = v => PRI[v] !== undefined ? v : "med";
+  s.tasks = (Array.isArray(s.tasks) ? s.tasks : []).filter(t => t && t.title).map(t => Object.assign(t, {
+    id: okId(t.id), priority: okPri(t.priority), minutes: Number(t.minutes) || 0,
+    start: toMin(t.start) !== null ? t.start : "", order: Number(t.order) < 0 ? Number(t.order) : 0 }));
+  s.projects = (Array.isArray(s.projects) ? s.projects : []).filter(p => p && p.name).map(p => Object.assign(p, { id: okId(p.id) }));
+  s.chats = s.chats || [];
+  s.recurring = (Array.isArray(s.recurring) ? s.recurring : []).filter(r => r && r.title && Array.isArray(r.days))
+    .map(r => Object.assign(r, { id: okId(r.id), priority: okPri(r.priority), minutes: Number(r.minutes) || 30 }));
+  s.focusLog = s.focusLog || {};
+  s.recaps = s.recaps || {};
+  s.plan = s.plan || null;
+  s.focus = s.focus || null;
+  return s;
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); }
+  catch (e) { toast("Couldn't save: storage is full. Try a smaller import."); }
+}
+
+// New day: carry unfinished tasks forward, add repeating tasks, drop old finished ones.
+function rollover() {
+  const today = dayKey();
+  const cutoff = Date.now() - 14 * 864e5;
+  S.tasks = S.tasks.filter(t => !t.done || (t.doneAt || 0) > cutoff);
+  S.tasks.forEach(t => {
+    if (!t.done && t.day < today) {
+      // a stale repeating copy is replaced by today's copy instead of piling up
+      if (t.recurId) { t.day = "drop"; return; }
+      t.day = today; t.carried = true; t.start = "";
+    }
+  });
+  S.tasks = S.tasks.filter(t => t.day !== "drop");
+  if (S.plan && S.plan.date !== today) S.plan = null;
+  addRecurringForToday();
+  save();
+}
+function addRecurringForToday() {
+  const today = dayKey(), wd = new Date().getDay();
+  S.recurring.forEach(r => {
+    if (r.lastAdded === today || !r.days.includes(wd)) return;
+    if (!todayTasks().some(t => t.recurId === r.id)) {
+      S.tasks.push(newTask({ title: r.title, project: r.project, priority: r.priority, minutes: r.minutes, start: r.start || "" }, { recurId: r.id }));
+    }
+    r.lastAdded = today;
+  });
+}
+
+function toast(msg) {
+  const el = $("#toast"); el.textContent = msg; el.classList.add("show");
+  clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("show"), 3200);
+}
+function esc(s) { return String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
+function ago(ts) {
+  if (!ts) return "";
+  const d = Math.floor((Date.now() - new Date(ts).getTime()) / 864e5);
+  return d <= 0 ? "today" : d === 1 ? "yesterday" : d < 30 ? `${d} days ago` : new Date(ts).toLocaleDateString();
+}
+const fmtTime = hhmm => { const m = toMin(hhmm); if (m === null) return ""; const d = new Date(); d.setHours(Math.floor(m / 60), m % 60, 0, 0); return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); };
+const nowMin = () => { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); };
+function greeting() { const h = new Date().getHours(); return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening"; }
+
+function applyTheme() { document.documentElement.dataset.theme = S.settings.theme || "aurora"; }
+
+// ---------- Render ----------
+function todayTasks() { return S.tasks.filter(t => t.day === dayKey()); }
+function openSorted() {
+  return todayTasks().filter(t => !t.done).sort((a, b) => {
+    const oa = a.order < 0 ? a.order : 0, ob = b.order < 0 ? b.order : 0; // "move to top" pins
+    if (oa !== ob) return oa - ob;
+    const sa = toMin(a.start), sb = toMin(b.start);
+    if (sa !== null && sb !== null && sa !== sb) return sa - sb;
+    if ((sa === null) !== (sb === null)) return sa === null ? 1 : -1;
+    return PRI[a.priority] - PRI[b.priority] || (a.createdAt || 0) - (b.createdAt || 0);
+  });
+}
+
+function render() {
+  $("#greet").textContent = `${greeting()}, ${S.settings.name || DEFAULT_NAME}`;
+  $("#today").textContent = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+  tickClock();
+
+  const all = todayTasks(), open = openSorted(), done = all.filter(t => t.done);
+  $("#progText").textContent = `${done.length} of ${all.length} done`;
+  $("#progBar").style.width = all.length ? `${Math.round(done.length / all.length * 100)}%` : "0";
+
+  $("#taskList").innerHTML = open.length ? open.map(taskRow).join("") :
+    `<li class="empty" style="justify-content:center">${all.length ? "All done. Nice work." : "Nothing on today's list yet."}</li>`;
+  $("#doneWrap").hidden = !done.length;
+  $("#doneSummary").textContent = `Finished (${done.length})`;
+  $("#doneList").innerHTML = done.map(taskRow).join("");
+
+  renderNow(open);
+  renderTimeline();
+  renderPlan();
+  renderProjects();
+  renderChats();
+  renderFocus();
+  $("#projList").innerHTML = S.projects.map(p => `<option value="${esc(p.name)}">`).join("");
+  const end = toMin(S.settings.end);
+  $("#btnRecap").classList.toggle("due", end !== null && nowMin() >= end - 30 && !S.recaps[dayKey()]);
+}
+
+function taskRow(t) {
+  const meta = [
+    `<span><span class="dot p-${t.priority}"></span>${PRI_LABEL[t.priority]}</span>`,
+    t.start ? `<span class="num">${fmtTime(t.start)}</span>` : "",
+    t.project ? `<span class="chip">${esc(t.project)}</span>` : "",
+    t.minutes ? `<span>~${t.minutes} min</span>` : "",
+    t.recurId ? `<span title="Repeating task"><svg class="icon" style="width:13px;height:13px;vertical-align:-2px"><use href="#i-repeat"/></svg></span>` : "",
+    t.carried && !t.done ? `<span>from earlier</span>` : ""
+  ].join("");
+  const focusing = S.focus && S.focus.taskId === t.id;
+  return `<li class="${t.done ? "done" : ""} ${focusing ? "focusing" : ""}" data-id="${t.id}">
+    <button class="check" data-act="toggle" aria-label="${t.done ? "Mark not done" : "Mark done"}">${t.done ? '<svg class="icon" style="width:14px;height:14px"><use href="#i-check"/></svg>' : ""}</button>
+    <div class="t-main"><div class="t-title">${esc(t.title)}</div><div class="t-meta">${meta}</div></div>
+    <div class="t-actions">
+      ${t.done ? "" : `<button class="btn ghost small icon-only" data-act="now" title="Start this now" aria-label="Start this now"><svg class="icon"><use href="#i-target"/></svg></button>
+      <button class="btn ghost small icon-only" data-act="top" title="Move to top" aria-label="Move to top"><svg class="icon"><use href="#i-up"/></svg></button>`}
+      <button class="btn ghost small icon-only" data-act="edit" title="Edit, set a time" aria-label="Edit"><svg class="icon"><use href="#i-clock"/></svg></button>
+      <button class="btn ghost small icon-only" data-act="del" title="Remove" aria-label="Remove"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div></li>`;
+}
+
+function currentNow(open) { return open.find(t => t.id === S.nowId) || open[0]; }
+function renderNow(open) {
+  const t = currentNow(open), plan = S.plan;
+  if (t) {
+    $("#nowTitle").textContent = t.title;
+    let why;
+    if (plan && plan.now && sameTask(plan.now.title, t.title)) why = plan.now.why;
+    else if (t.id === S.nowId) why = "You picked this one.";
+    else if (t.start) why = `Scheduled for ${fmtTime(t.start)}.`;
+    else why = t.priority === "high" ? "Highest priority on your list." : "Next up on your list.";
+    $("#nowWhy").textContent = why + (t.project ? `  ·  ${t.project}` : "");
+    $("#btnNowDone").hidden = false;
+    $("#btnNowDone").dataset.id = t.id;
+  } else {
+    $("#nowTitle").textContent = todayTasks().length ? "You're clear for today" : "Add your first task";
+    $("#nowWhy").textContent = todayTasks().length ? "Everything is checked off. Time to wrap up." : 'Or press "Plan my day" and Claude will suggest one.';
+    $("#btnNowDone").hidden = true;
+  }
+}
+const norm = s => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+const sameTask = (a, b) => norm(a) === norm(b);
+
+// ---------- Timeline ----------
+const PX = 1.15; // pixels per minute
+function renderTimeline() {
+  const tasks = todayTasks().filter(t => toMin(t.start) !== null);
+  let from = toMin(S.settings.start) ?? 540, to = toMin(S.settings.end) ?? 1020;
+  if (to <= from) to = Math.min(24 * 60, from + 480);
+  tasks.forEach(t => { const s = toMin(t.start); from = Math.min(from, s); to = Math.max(to, s + (t.minutes || 30)); });
+  from = Math.floor(from / 60) * 60; to = Math.min(24 * 60, Math.ceil(to / 60) * 60);
+  const el = $("#timeline");
+  let html = "";
+  for (let m = from; m <= to; m += 60) html += `<div class="tl-hour" style="top:${(m - from) * PX}px"><span>${fmtTime(toHHMM(m))}</span></div>`;
+
+  // lay out overlapping blocks side by side
+  const items = tasks.map(t => ({ t, s: toMin(t.start), e: toMin(t.start) + (t.minutes || 30) })).sort((a, b) => a.s - b.s);
+  let cluster = [], clusterEnd = -1;
+  const flush = () => {
+    const lanes = [];
+    cluster.forEach(it => { let l = lanes.findIndex(end => end <= it.s); if (l < 0) { l = lanes.length; lanes.push(0); } lanes[l] = it.e; it.lane = l; });
+    cluster.forEach(it => it.lanes = lanes.length);
+    cluster = [];
+  };
+  items.forEach(it => { if (it.s >= clusterEnd && cluster.length) flush(); cluster.push(it); clusterEnd = Math.max(clusterEnd, it.e); });
+  flush();
+  items.forEach(({ t, s, e, lane, lanes }) => {
+    const w = 100 / lanes;
+    html += `<button type="button" class="tl-block ${t.done ? "done" : ""}" data-id="${t.id}" style="--c:${PRI_VAR[t.priority]};top:${(s - from) * PX + 1}px;height:${Math.max((e - s) * PX - 2, 26)}px;left:calc(${lane * w}% + 6px);width:calc(${w}% - 10px)">
+      <b>${esc(t.title)}</b><span class="small num">${fmtTime(t.start)} – ${fmtTime(toHHMM(e))}</span></button>`;
+  });
+  const n = nowMin();
+  if (n >= from && n <= to) html += `<div class="tl-now" style="top:${(n - from) * PX}px" title="Now"></div>`;
+  if (!tasks.length) html += `<div class="empty" style="position:absolute;left:0;right:0;top:${Math.max(0, (Math.min(Math.max(n, from), to) - from) * PX - 30)}px">No time blocks yet. Press Auto-fill, or use the clock on a task.</div>`;
+  el.style.height = `${(to - from) * PX + 12}px`;
+  el.innerHTML = html;
+  el.dataset.from = from;
+}
+function scrollTimelineToNow() {
+  const from = +$("#timeline").dataset.from || 0;
+  $("#tlScroll").scrollTop = Math.max(0, (nowMin() - from) * PX - 80);
+}
+$("#timeline").addEventListener("click", e => { const b = e.target.closest(".tl-block"); if (b) openTask(b.dataset.id); });
+
+function autoFill() {
+  const open = openSorted().filter(t => toMin(t.start) === null);
+  if (!open.length) { toast("Every open task already has a time."); return; }
+  const busy = todayTasks().filter(t => toMin(t.start) !== null).map(t => [toMin(t.start), toMin(t.start) + (t.minutes || 30)]);
+  let cursor = Math.max(toMin(S.settings.start) ?? 540, Math.ceil(nowMin() / 15) * 15);
+  open.forEach(t => {
+    const dur = t.minutes || 30;
+    let moved = true;
+    while (moved) {
+      moved = false;
+      for (const [s, e] of busy) if (cursor < e && cursor + dur > s) { cursor = e; moved = true; }
+    }
+    if (cursor + dur > 24 * 60) return;
+    t.start = toHHMM(cursor); if (!t.minutes) t.minutes = dur;
+    busy.push([cursor, cursor + dur]);
+    cursor += dur + 5;
+  });
+  save(); render(); scrollTimelineToNow(); toast("Your open tasks are in the timeline.");
+}
+$("#btnAutoFill").addEventListener("click", autoFill);
+$("#btnClearTimes").addEventListener("click", () => {
+  if (!todayTasks().some(t => t.start)) return;
+  if (!confirm("Remove the times from all of today's tasks?")) return;
+  todayTasks().forEach(t => t.start = ""); save(); render();
+});
+
+// ---------- Tasks ----------
+function newTask({ title, project = "", priority = "med", minutes = 0, start = "" }, extra = {}) {
+  return Object.assign({ id: uid(), title: String(title).trim(), project: String(project || "").trim(),
+    priority: PRI[priority] !== undefined ? priority : "med", minutes: Number(minutes) || 0,
+    start: toMin(start) !== null ? toHHMM(toMin(start)) : "", done: false, day: dayKey(), createdAt: Date.now(), order: 0 }, extra);
+}
+function addTask(t, extra) {
+  const title = String(t.title || "").trim();
+  if (!title) return false;
+  const day = (extra && extra.day) || dayKey();
+  if (S.tasks.some(x => x.day === day && !x.done && sameTask(x.title, title))) return false;
+  S.tasks.push(newTask({ ...t, title }, extra));
+  return true;
+}
+
+$("#addForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if (addTask({ title: $("#addTitle").value, project: $("#addProject").value, priority: $("#addPri").value })) {
+    $("#addTitle").value = ""; $("#addPri").value = "med"; save(); render();
+  }
+  $("#addTitle").focus();
+});
+
+function onTaskClick(e) {
+  const btn = e.target.closest("button[data-act]"); if (!btn) return;
+  const id = btn.closest("li").dataset.id;
+  const t = S.tasks.find(x => x.id === id); if (!t) return;
+  const act = btn.dataset.act;
+  if (act === "edit") return openTask(id);
+  if (act === "toggle") {
+    t.done = !t.done; t.doneAt = t.done ? Date.now() : null;
+    if (t.done && S.nowId === id) S.nowId = null;
+    if (t.done && S.focus && S.focus.taskId === id) stopFocus(true);
+  }
+  if (act === "del") { S.tasks = S.tasks.filter(x => x.id !== id); }
+  if (act === "top") { t.order = Math.min(0, ...todayTasks().map(x => x.order ?? 0)) - 1; t.start = ""; }
+  if (act === "now") { S.nowId = id; window.scrollTo({ top: 0, behavior: "smooth" }); }
+  save(); render();
+}
+$("#taskList").addEventListener("click", onTaskClick);
+$("#doneList").addEventListener("click", onTaskClick);
+
+$("#btnNowDone").addEventListener("click", () => {
+  const t = S.tasks.find(x => x.id === $("#btnNowDone").dataset.id);
+  if (!t) return;
+  t.done = true; t.doneAt = Date.now(); S.nowId = null;
+  if (S.focus && S.focus.taskId === t.id) stopFocus(true);
+  save(); render(); toast("Checked off. On to the next one.");
+});
+
+let editingTask = null;
+function openTask(id) {
+  editingTask = S.tasks.find(x => x.id === id); if (!editingTask) return;
+  $("#tTitle").value = editingTask.title; $("#tProject").value = editingTask.project || "";
+  $("#tPri").value = editingTask.priority; $("#tStart").value = editingTask.start || ""; $("#tMin").value = editingTask.minutes || 30;
+  $("#dlgTask").showModal();
+}
+$("#dlgTask").addEventListener("close", () => {
+  if ($("#dlgTask").returnValue !== "save" || !editingTask) return;
+  const title = $("#tTitle").value.trim(); if (!title) return;
+  Object.assign(editingTask, { title, project: $("#tProject").value.trim(), priority: $("#tPri").value,
+    start: $("#tStart").value || "", minutes: Number($("#tMin").value) || 30 });
+  save(); render();
+});
+$("#btnTaskDel").addEventListener("click", () => {
+  if (!editingTask) return;
+  S.tasks = S.tasks.filter(t => t !== editingTask); editingTask = null; save(); render(); $("#dlgTask").close("cancel");
+});
+
+$("#suggList").addEventListener("click", e => {
+  const b = e.target.closest("button[data-sugg]"); if (!b) return;
+  addTask(S.plan.suggestions[+b.dataset.sugg]); save(); render();
+});
+$("#btnAddAll").addEventListener("click", () => { (S.plan.suggestions || []).forEach(s => addTask(s)); save(); render(); toast("Added to today."); });
+
+function renderPlan() {
+  const p = S.plan;
+  $("#planCard").hidden = !p;
+  if (!p) return;
+  const existing = new Set(todayTasks().map(t => norm(t.title)));
+  const items = p.suggestions || [];
+  $("#suggList").innerHTML = items.map((s, i) => {
+    const added = existing.has(norm(s.title));
+    return `<div class="sugg">
+      <div class="t-main"><div style="font-weight:600">${esc(s.title)}</div>
+        <div class="t-meta"><span><span class="dot p-${PRI[s.priority] !== undefined ? s.priority : "med"}"></span>${PRI_LABEL[s.priority] || "Medium"}</span>
+        ${s.start ? `<span class="num">${fmtTime(s.start)}</span>` : ""}${s.project ? `<span class="chip">${esc(s.project)}</span>` : ""}${s.minutes ? `<span>~${Number(s.minutes) || 0} min</span>` : ""}</div>
+        ${s.why ? `<div class="small" style="margin-top:3px">${esc(s.why)}</div>` : ""}</div>
+      <button class="btn small" data-sugg="${i}" ${added ? "disabled" : ""}>${added ? "Added" : "Add"}</button></div>`;
+  }).join("") || `<div class="empty">No extra suggestions.</div>`;
+  $("#btnAddAll").hidden = items.every(s => existing.has(norm(s.title)));
+  $("#planTip").hidden = !p.tip;
+  $("#planTip").textContent = p.tip || "";
+}
+
+// ---------- Focus timer ----------
+const CIRC = 326.73;
+let audioCtx = null;
+function focusTotal() { return (S.focus && S.focus.total) || (Number(S.settings.focusMin) || 30) * 60000; }
+function focusLeft() {
+  if (!S.focus) return focusTotal();
+  return Math.min(focusTotal(), S.focus.running ? Math.max(0, S.focus.endsAt - Date.now()) : S.focus.left);
+}
+function fmtMs(ms) { const s = Math.ceil(ms / 1000); return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`; }
+function renderFocus() {
+  const left = focusLeft(), total = focusTotal();
+  $("#ringTime").textContent = fmtMs(left);
+  $("#ringFg").style.strokeDashoffset = String(CIRC * (1 - left / total));
+  const f = S.focus, btn = $("#btnFocus");
+  const label = !f ? "Start focus" : f.running ? "Pause" : "Resume";
+  btn.querySelector("span").textContent = label;
+  btn.querySelector("use").setAttribute("href", f && f.running ? "#i-pause" : "#i-play");
+  $("#btnFocusReset").hidden = !f;
+  $("#ringSub").textContent = !f ? `${Math.round(total / 60000)} min focus` : f.running ? "Focusing" : "Paused";
+  document.title = f && f.running ? `${fmtMs(left)} · Morning Brief` : "Morning Brief";
+}
+function chime() {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    [[659, 0], [880, .18], [1319, .36]].forEach(([f, t]) => {
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = "sine"; o.frequency.value = f; o.connect(g); g.connect(audioCtx.destination);
+      const at = audioCtx.currentTime + t;
+      g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.25, at + .02); g.gain.exponentialRampToValueAtTime(0.0001, at + .9);
+      o.start(at); o.stop(at + 1);
+    });
+  } catch (e) {}
+}
+$("#btnFocus").addEventListener("click", () => {
+  try { audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+  if (!S.focus) {
+    const t = currentNow(openSorted());
+    const total = (Number(S.settings.focusMin) || 30) * 60000;
+    S.focus = { taskId: t ? t.id : null, running: true, total, endsAt: Date.now() + total, left: total };
+    if (t) S.nowId = t.id;
+    try { if ("Notification" in window && Notification.permission === "default") Notification.requestPermission(); } catch (e) {}
+  } else if (S.focus.running) { S.focus.left = focusLeft(); S.focus.running = false; }
+  else { S.focus.endsAt = Date.now() + S.focus.left; S.focus.running = true; }
+  save(); render();
+});
+$("#btnFocusReset").addEventListener("click", () => { stopFocus(true); save(); render(); });
+function stopFocus(countPartial) {
+  if (!S.focus) return;
+  const spent = focusTotal() - focusLeft();
+  if (countPartial && spent > 60000) logFocus(spent);
+  S.focus = null;
+}
+function logFocus(ms) { const k = dayKey(); S.focusLog[k] = (S.focusLog[k] || 0) + Math.round(ms / 60000); }
+function finishFocus() {
+  const f = S.focus, k = dayKey(new Date(f.endsAt));
+  S.focusLog[k] = (S.focusLog[k] || 0) + Math.round(f.total / 60000);
+  S.focus = null; save(); render();
+  if (Date.now() - f.endsAt > 60000) { toast("Your last focus session finished while the app was closed. It's logged."); return; }
+  chime();
+  const t = S.tasks.find(x => x.id === f.taskId);
+  try { if ("Notification" in window && Notification.permission === "granted") new Notification("Focus session done", { body: t ? t.title : "Take a short break." }); } catch (e) {}
+  setTimeout(() => {
+    if (t && !t.done && confirm(`Focus session done!\n\nDid you finish "${t.title}"?`)) { t.done = true; t.doneAt = Date.now(); S.nowId = null; save(); render(); toast("Nice. Take a 5 minute break."); }
+    else toast("Session logged. Take a 5 minute break.");
+  }, 400);
+}
+setInterval(() => {
+  if (S.focus && S.focus.running && focusLeft() <= 0) finishFocus();
+  else if (S.focus && S.focus.running) renderFocus();
+}, 1000);
+
+// ---------- Projects ----------
+function renderProjects() {
+  const ps = [...S.projects].sort((a, b) => new Date(b.updated || 0) - new Date(a.updated || 0));
+  $("#projListEl").innerHTML = ps.length ? ps.map(p => `<div class="proj" data-pid="${p.id}">
+      <div class="proj-head"><span class="proj-name">${esc(p.name)}</span><span class="small">${p.updated ? ago(p.updated) : ""}</span></div>
+      ${p.next ? `<div class="next">Next: ${esc(p.next)}</div>` : ""}
+      <div style="display:flex;gap:6px;margin-top:6px">
+        ${p.next ? `<button class="btn small" data-pact="today">Add next step to today</button>` : ""}
+        <button class="btn small ghost" data-pact="edit"><svg class="icon" style="width:15px;height:15px"><use href="#i-edit"/></svg>Edit</button>
+      </div></div>`).join("")
+    : `<div class="empty">No projects yet. Add them here, or import your Claude data in Settings.</div>`;
+}
+function renderChats() {
+  const cs = S.chats.slice(0, 8);
+  $("#chatsCard").hidden = !cs.length;
+  if (!cs.length) return;
+  $("#chatsFrom").textContent = S.importedAt ? `imported ${ago(S.importedAt)}` : "";
+  $("#chatList").innerHTML = cs.map(c => `<div class="proj">
+    <div class="proj-head"><span class="proj-name">${esc(c.title || "Untitled chat")}</span><span class="small">${ago(c.updated)}</span></div>
+    ${c.project ? `<div class="small">${esc(c.project)}</div>` : ""}</div>`).join("");
+}
+let editingProj = null;
+function openProj(p) {
+  editingProj = p || null;
+  $("#projDlgTitle").textContent = p ? "Edit project" : "New project";
+  $("#pName").value = p?.name || ""; $("#pNext").value = p?.next || ""; $("#pDesc").value = p?.desc || "";
+  $("#btnProjDel").hidden = !p;
+  $("#dlgProj").showModal();
+}
+$("#btnAddProj").addEventListener("click", () => openProj(null));
+$("#projListEl").addEventListener("click", e => {
+  const b = e.target.closest("button[data-pact]"); if (!b) return;
+  const p = S.projects.find(x => x.id === b.closest(".proj").dataset.pid); if (!p) return;
+  if (b.dataset.pact === "edit") openProj(p);
+  if (b.dataset.pact === "today") { if (addTask({ title: p.next, project: p.name })) { save(); render(); toast("Added to today."); } else toast("Already on today's list."); }
+});
+$("#dlgProj").addEventListener("close", () => {
+  if ($("#dlgProj").returnValue !== "save") return;
+  const name = $("#pName").value.trim(); if (!name) return;
+  const p = editingProj || { id: uid(), source: "manual" };
+  Object.assign(p, { name, next: $("#pNext").value.trim(), desc: $("#pDesc").value.trim(), updated: p.updated || new Date().toISOString() });
+  if (!editingProj) S.projects.push(p);
+  save(); render();
+});
+$("#btnProjDel").addEventListener("click", () => {
+  if (editingProj && confirm(`Delete "${editingProj.name}"?`)) {
+    S.projects = S.projects.filter(p => p !== editingProj); save(); render(); $("#dlgProj").close("cancel");
+  }
+});
+
+// ---------- Repeating tasks ----------
+let rDays = [1, 2, 3, 4, 5];
+function renderRepeat() {
+  $("#rDays").innerHTML = DAYS.map((d, i) => `<button type="button" class="day" data-day="${i}" aria-pressed="${rDays.includes(i)}">${d}</button>`).join("") +
+    `<button type="button" class="btn small ghost" data-preset="all">Every day</button><button type="button" class="btn small ghost" data-preset="wk">Weekdays</button>`;
+  $("#repeatList").innerHTML = S.recurring.length ? S.recurring.map(r => `<div class="sugg" data-rid="${r.id}">
+      <div class="t-main"><div style="font-weight:600">${esc(r.title)}</div>
+      <div class="t-meta"><span><span class="dot p-${r.priority}"></span>${PRI_LABEL[r.priority]}</span>
+        <span>${r.days.length === 7 ? "Every day" : r.days.join() === "1,2,3,4,5" ? "Weekdays" : r.days.map(d => DAYS[d]).join(", ")}</span>
+        ${r.start ? `<span class="num">${fmtTime(r.start)}</span>` : ""}${r.project ? `<span class="chip">${esc(r.project)}</span>` : ""}</div></div>
+      <button type="button" class="btn small ghost icon-only" data-rdel="${r.id}" aria-label="Delete repeating task"><svg class="icon"><use href="#i-x"/></svg></button></div>`).join("")
+    : `<div class="empty">No repeating tasks yet.</div>`;
+}
+$("#btnRepeat").addEventListener("click", () => { renderRepeat(); $("#dlgRepeat").showModal(); });
+$("#rDays").addEventListener("click", e => {
+  const d = e.target.closest("[data-day]"), p = e.target.closest("[data-preset]");
+  if (d) { const i = +d.dataset.day; rDays = rDays.includes(i) ? rDays.filter(x => x !== i) : [...rDays, i].sort(); }
+  if (p) rDays = p.dataset.preset === "all" ? [0, 1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5];
+  renderRepeat();
+});
+$("#repeatList").addEventListener("click", e => {
+  const b = e.target.closest("[data-rdel]"); if (!b) return;
+  const id = b.dataset.rdel;
+  S.recurring = S.recurring.filter(r => r.id !== id);
+  S.tasks = S.tasks.filter(t => !(t.recurId === id && !t.done && t.day === dayKey()));
+  save(); renderRepeat(); render();
+});
+$("#btnRepeatAdd").addEventListener("click", () => {
+  const title = $("#rTitle").value.trim();
+  if (!title) { $("#rTitle").focus(); return; }
+  if (!rDays.length) { toast("Pick at least one day."); return; }
+  S.recurring.push({ id: uid(), title, project: $("#rProject").value.trim(), priority: $("#rPri").value,
+    minutes: Number($("#rMin").value) || 30, start: $("#rStart").value || "", days: [...rDays], lastAdded: "" });
+  addRecurringForToday();
+  $("#rTitle").value = ""; $("#rStart").value = "";
+  save(); renderRepeat(); render(); toast("Repeating task added.");
+});
+
+// ---------- Settings ----------
+let pickedTheme = null;
+function renderThemePicker() {
+  $("#themePicker").innerHTML = THEMES.map(t => `<button type="button" class="theme-opt" data-theme-id="${t.id}" aria-pressed="${t.id === pickedTheme}"><i style="background:${t.sw}"></i><span>${t.name}</span></button>`).join("");
+}
+$("#themePicker").addEventListener("click", e => {
+  const b = e.target.closest("[data-theme-id]"); if (!b) return;
+  pickedTheme = b.dataset.themeId; document.documentElement.dataset.theme = pickedTheme; renderThemePicker();
+});
+$("#btnSettings").addEventListener("click", () => {
+  const st = S.settings; pickedTheme = st.theme; renderThemePicker();
+  $("#sName").value = st.name; $("#sKey").value = st.apiKey; $("#sModel").value = st.model;
+  $("#sStart").value = st.start; $("#sEnd").value = st.end; $("#sFocus").value = st.focusMin; $("#sIntro").checked = st.intro !== false;
+  $("#dlgSettings").showModal();
+});
+$("#dlgSettings").addEventListener("close", () => {
+  if ($("#dlgSettings").returnValue !== "save") { applyTheme(); return; }
+  Object.assign(S.settings, { name: $("#sName").value.trim() || DEFAULT_NAME, apiKey: $("#sKey").value.trim(),
+    model: $("#sModel").value.trim() || DEFAULT_MODEL, start: $("#sStart").value || "09:00", end: $("#sEnd").value || "17:00",
+    theme: pickedTheme || "aurora", focusMin: Math.min(120, Math.max(5, Number($("#sFocus").value) || 30)), intro: $("#sIntro").checked });
+  applyTheme(); save(); render();
+});
+$("#btnBackup").addEventListener("click", () => {
+  const copy = JSON.parse(JSON.stringify(S)); copy.settings.apiKey = "";
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(copy, null, 2)], { type: "application/json" }));
+  a.download = `morning-brief-backup-${dayKey()}.json`; a.click();
+});
+$("#btnRestore").addEventListener("click", () => $("#restoreFile").click());
+$("#restoreFile").addEventListener("change", async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try {
+    const data = JSON.parse(await f.text()); const key = S.settings.apiKey;
+    if (!data || typeof data !== "object" || Array.isArray(data) || !Array.isArray(data.tasks) || typeof data.settings !== "object") throw new Error("not a backup");
+    if (!confirm("Replace everything in the app with this backup?")) { e.target.value = ""; return; }
+    localStorage.setItem(KEY, JSON.stringify(data)); S = load(); if (!S.settings.apiKey) S.settings.apiKey = key;
+    rollover(); applyTheme(); render(); $("#dlgSettings").close("cancel"); toast("Restored.");
+  } catch (err) { toast("That file isn't a Morning Brief backup."); }
+  e.target.value = "";
+});
+
+// ---------- Claude export import ----------
+const textOf = m => {
+  if (!m) return "";
+  if (typeof m.text === "string" && m.text) return m.text;
+  if (Array.isArray(m.content)) return m.content.map(c => c.text || "").join(" ");
+  return "";
+};
+// Reads .zip files from the claude.ai export (no unzipping needed) plus plain .json/.jsonl files.
+async function readZip(file) {
+  const buf = await file.arrayBuffer(), dv = new DataView(buf), out = [];
+  let eocd = -1;
+  for (let i = buf.byteLength - 22; i >= Math.max(0, buf.byteLength - 66000); i--) if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  if (eocd < 0) throw new Error("not a zip");
+  let p = dv.getUint32(eocd + 16, true);
+  if (p === 0xFFFFFFFF) throw new Error("too big");
+  const count = dv.getUint16(eocd + 10, true), dec = new TextDecoder();
+  for (let n = 0; n < count && dv.getUint32(p, true) === 0x02014b50; n++) {
+    const method = dv.getUint16(p + 10, true), size = dv.getUint32(p + 20, true);
+    const nameLen = dv.getUint16(p + 28, true), extraLen = dv.getUint16(p + 30, true), commLen = dv.getUint16(p + 32, true);
+    const local = dv.getUint32(p + 42, true);
+    const name = dec.decode(new Uint8Array(buf, p + 46, nameLen));
+    p += 46 + nameLen + extraLen + commLen;
+    if (!/\.jsonl?$/i.test(name) || /(^|\/)(__MACOSX|\.)/.test(name)) continue;
+    const start = local + 30 + dv.getUint16(local + 26, true) + dv.getUint16(local + 28, true);
+    const raw = new Uint8Array(buf, start, size);
+    let text;
+    if (method === 0) text = dec.decode(raw);
+    else if (method === 8) text = await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text();
+    else throw new Error("unsupported zip");
+    out.push({ name, text });
+  }
+  return out;
+}
+function parseJsonish(text) {
+  try { return JSON.parse(text); }
+  catch (e) { return text.split(/\r?\n/).filter(l => l.trim()).map(l => JSON.parse(l)); } // JSON Lines
+}
+// Pull every list of records out of a file, however it's nested.
+function recordsIn(data) {
+  if (Array.isArray(data)) return data.filter(x => x && typeof x === "object");
+  if (data && typeof data === "object") {
+    const lists = Object.values(data).filter(Array.isArray);
+    if (lists.length) return lists.flatMap(recordsIn);
+    if (data.uuid || data.name) return [data];
+  }
+  return [];
+}
+const isConvo = r => Array.isArray(r.chat_messages) || Array.isArray(r.messages);
+const isProject = r => !isConvo(r) && r.name && ("prompt_template" in r || "docs" in r || "is_private" in r || "description" in r);
+function importClaudeFiles(files) {
+  const projById = {};
+  S.projects.forEach(p => { if (p.claudeId) projById[p.claudeId] = p; });
+  const projects = [], convos = [];
+  files.forEach(({ name, data }) => {
+    const hint = /project/i.test(name) ? "p" : /conversation/i.test(name) ? "c" : "";
+    recordsIn(data).forEach(r => {
+      if (isConvo(r) || (hint === "c" && (r.updated_at || r.created_at))) convos.push(r);
+      else if (isProject(r) || (hint === "p" && r.name)) projects.push(r);
+    });
+  });
+  projects.forEach(p => {
+    let mine = (p.uuid && projById[p.uuid]) || S.projects.find(x => sameTask(x.name, p.name));
+    if (!mine) { mine = { id: uid(), source: "claude", next: "" }; S.projects.push(mine); }
+    Object.assign(mine, { claudeId: p.uuid || mine.claudeId, name: p.name,
+      desc: mine.desc || String(p.description || "").slice(0, 400), updated: p.updated_at || p.created_at || mine.updated });
+    if (p.uuid) projById[p.uuid] = mine;
+  });
+  const seen = new Set();
+  const chats = convos.filter(c => c.updated_at || c.created_at).filter(c => !c.uuid || (!seen.has(c.uuid) && seen.add(c.uuid))).map(c => {
+    const msgs = c.chat_messages || c.messages || [];
+    const who = m => m.sender || m.role;
+    const lastHuman = [...msgs].reverse().find(m => ["human", "user"].includes(who(m)));
+    const lastAI = [...msgs].reverse().find(m => who(m) === "assistant");
+    const pid = c.project_uuid || c.project?.uuid;
+    return { id: c.uuid, title: c.name || c.title || "", updated: c.updated_at || c.created_at,
+      project: pid && projById[pid] ? projById[pid].name : (c.project?.name || ""),
+      ask: textOf(lastHuman).slice(0, 220), reply: textOf(lastAI).slice(-260) };
+  }).sort((a, b) => new Date(b.updated) - new Date(a.updated)).slice(0, 150);
+  if (chats.length) S.chats = chats;
+  chats.forEach(c => { const p = S.projects.find(x => x.name === c.project); if (p && (!p.updated || c.updated > p.updated)) p.updated = c.updated; });
+  return { projects: projects.length, chats: chats.length };
+}
+$("#sImport").addEventListener("change", async e => {
+  const picked = [...e.target.files]; e.target.value = "";
+  if (!picked.length) return;
+  toast("Reading your Claude data…");
+  const files = [];
+  for (const f of picked) {
+    try {
+      const parts = /\.zip$/i.test(f.name) ? (await readZip(f)).map(x => ({ name: f.name + "/" + x.name, text: x.text })) : [{ name: f.name, text: await f.text() }];
+      for (const x of parts) {
+        const data = parseJsonish(x.text);
+        if (data && data.data_files && data.instructions) { toast("That's the list of download links. Open the links, then pick the projects and conversations zip files."); continue; }
+        files.push({ name: x.name, data });
+      }
+    } catch (err) {
+      console.warn(err);
+      const big = err instanceof RangeError || /too big|string length/i.test(err.message);
+      toast(big ? `${f.name} is too big to read in one go. Tell Claude in your project and it'll help.`
+        : /unsupported zip/.test(err.message) ? `${f.name} uses a zip type the app can't open. Use the original file from Claude.`
+        : `Couldn't read ${f.name}.`);
+    }
+  }
+  if (!files.length) return;
+  const r = importClaudeFiles(files);
+  if (!r.projects && !r.chats) { toast("No projects or chats found. Pick the projects and conversations zip files."); return; }
+  S.importedAt = new Date().toISOString(); save(); render();
+  toast(`Imported ${r.projects} projects and ${r.chats} recent chats.`);
+});
+
+// ---------- Claude API ----------
+async function askClaude(system, user, maxTokens = 4000) {
+  if (!S.settings.apiKey) { toast("Add your Claude API key in Settings first."); $("#btnSettings").click(); throw new Error("no key"); }
+  let res;
+  try { res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-api-key": S.settings.apiKey,
+      "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+    body: JSON.stringify({ model: S.settings.model || DEFAULT_MODEL, max_tokens: maxTokens, system, messages: [{ role: "user", content: user }] })
+  }); } catch (e) { toast("Couldn't reach Claude. Check your internet and try again."); throw e; }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const msg = data?.error?.message || res.statusText;
+    toast(res.status === 401 ? "Your API key was rejected. Check it in Settings." : `Claude error: ${msg}`);
+    throw new Error(msg);
+  }
+  if (data.stop_reason === "refusal") { toast("Claude declined this one. Try rewording it."); throw new Error("refusal"); }
+  if (data.stop_reason === "max_tokens") { toast("Claude's answer got cut off. Try again."); throw new Error("max_tokens"); }
+  const text = (data.content || []).filter(c => c.type === "text").map(c => c.text || "").join("");
+  const m = text.match(/\{[\s\S]*\}/);
+  try { if (m) return JSON.parse(m[0]); } catch (e) {}
+  toast("Claude's answer wasn't readable. Try again."); throw new Error("bad json");
+}
+function context() {
+  const now = new Date();
+  const open = openSorted().map(t => ({ title: t.title, project: t.project, priority: t.priority, minutes: t.minutes, start: t.start || null, repeating: !!t.recurId, carried_over: !!t.carried }));
+  const doneToday = todayTasks().filter(t => t.done).map(t => t.title);
+  const projects = S.projects.map(p => ({ name: p.name, next_step: p.next, notes: (p.desc || "").slice(0, 300), last_activity: p.updated ? ago(p.updated) : "unknown" }));
+  const chats = S.chats.slice(0, 40).map(c => ({ title: c.title, project: c.project, when: ago(c.updated), last_ask: c.ask, last_reply_end: c.reply }));
+  return { now: now.toLocaleString(), weekday: now.toLocaleDateString(undefined, { weekday: "long" }), work_hours: `${S.settings.start}-${S.settings.end}`,
+    focus_minutes_today: S.focusLog[dayKey()] || 0, open_tasks: open, done_today: doneToday, projects, recent_claude_chats: chats };
+}
+function setBusy(btn, busy, label) {
+  btn.disabled = busy; const span = btn.querySelector("span"); if (span) span.textContent = label;
+  const ic = btn.querySelector("svg"); if (!ic) return;
+  ic.innerHTML = busy ? '<use href="#i-loader"/>' : '<use href="#i-spark"/>'; ic.classList.toggle("spin", busy);
+}
+
+$("#btnPlan").addEventListener("click", async () => {
+  const btn = $("#btnPlan"); setBusy(btn, true, "Planning…");
+  try {
+    const plan = await askClaude(
+      `You are a calm, practical daily planner for a busy builder who runs many projects in Claude. ` +
+      `Using their open tasks, projects and recent Claude chats, decide what they should do RIGHT NOW and what else belongs on today's list. ` +
+      `Fit the remaining work hours. Prefer finishing started work and unblocking stalled projects. Be concrete: each task starts with a verb and is doable in one sitting. ` +
+      `Reply with ONLY this JSON: {"now":{"title":string,"why":string},"suggestions":[{"title":string,"project":string,"priority":"high"|"med"|"low","minutes":number,"start":"HH:MM","why":string}],"tip":string}. ` +
+      `"now.title" should match an existing open task title exactly when one fits. Give at most 6 suggestions, none duplicating open tasks, with start times in free slots after the current time. Keep each "why" under 15 words and "tip" to one sentence.`,
+      JSON.stringify(context()));
+    plan.date = dayKey();
+    plan.suggestions = (Array.isArray(plan.suggestions) ? plan.suggestions : []).filter(x => x && x.title).map(x => ({
+      title: String(x.title), project: String(x.project || ""), priority: PRI[x.priority] !== undefined ? x.priority : "med",
+      minutes: Number(x.minutes) || 0, start: toMin(x.start) !== null ? toHHMM(toMin(x.start)) : "", why: String(x.why || "") }));
+    plan.now = plan.now && plan.now.title ? { title: String(plan.now.title), why: String(plan.now.why || "") } : null;
+    plan.tip = String(plan.tip || "");
+    S.plan = plan;
+    const match = openSorted().find(t => plan.now && sameTask(t.title, plan.now.title));
+    if (match) S.nowId = match.id;
+    else if (plan.now?.title) { addTask({ title: plan.now.title, priority: "high" }); const t = openSorted().find(x => sameTask(x.title, plan.now.title)); if (t) S.nowId = t.id; }
+    save(); render(); toast("Here's your plan.");
+  } catch (e) { console.warn(e); }
+  finally { setBusy(btn, false, "Plan my day"); }
+});
+
+$("#btnPaste").addEventListener("click", () => { $("#pasteText").value = ""; $("#dlgPaste").showModal(); });
+$("#btnExtract").addEventListener("click", async () => {
+  const text = $("#pasteText").value.trim(); if (!text) return;
+  const b = $("#btnExtract"); b.disabled = true; b.textContent = "Reading…";
+  try {
+    const out = await askClaude(
+      `Extract concrete to-dos from the user's text. Each starts with a verb and is doable in one sitting. ` +
+      `Reply with ONLY JSON: {"tasks":[{"title":string,"project":string,"priority":"high"|"med"|"low","minutes":number}]}. Max 10 tasks. Known projects: ${S.projects.map(p => p.name).join(", ") || "none"}.`,
+      text.slice(0, 20000), 3000);
+    const proj = $("#pasteProj").value.trim();
+    let n = 0; (out.tasks || []).forEach(t => { if (addTask({ ...t, project: proj || t.project })) n++; });
+    save(); render(); $("#dlgPaste").close(); toast(n ? `Added ${n} task${n > 1 ? "s" : ""} to today.` : "No new tasks found.");
+  } catch (e) { console.warn(e); }
+  finally { b.disabled = false; b.textContent = "Make tasks"; }
+});
+
+// ---------- End-of-day recap ----------
+function renderRecap() {
+  const all = todayTasks(), done = all.filter(t => t.done), open = all.filter(t => !t.done);
+  const r = S.recaps[dayKey()];
+  $("#recapTitle").textContent = `Your ${new Date().toLocaleDateString(undefined, { weekday: "long" })}, ${S.settings.name || DEFAULT_NAME}`;
+  $("#rcDone").textContent = done.length; $("#rcFocus").textContent = S.focusLog[dayKey()] || 0; $("#rcOpen").textContent = open.length;
+  let html = "";
+  if (r && r.summary) html += `<p style="margin:0 0 10px">${esc(r.summary)}</p>`;
+  const wins = r && r.wins && r.wins.length ? r.wins : done.map(t => t.title);
+  if (wins.length) html += `<div class="lbl" style="font-weight:600;font-size:13px">Wins</div><ul class="recap-list">${wins.slice(0, 8).map(w => `<li>${esc(w)}</li>`).join("")}</ul>`;
+  if (open.length) html += `<div class="lbl" style="font-weight:600;font-size:13px">Rolling to tomorrow</div><ul class="recap-list">${open.slice(0, 8).map(t => `<li>${esc(t.title)}</li>`).join("")}</ul>`;
+  if (!wins.length && !open.length) html = `<div class="empty">Nothing on the list today. Tomorrow's a fresh start.</div>`;
+  if (r && r.note) html += `<div class="tip">${esc(r.note)}</div>`;
+  $("#recapBody").innerHTML = html;
+  if (r && r.tomorrow && !$("#rcTomorrow").value) $("#rcTomorrow").value = r.tomorrow;
+}
+$("#btnRecap").addEventListener("click", () => {
+  const r = S.recaps[dayKey()];
+  $("#rcTomorrow").value = (r && r.tomorrow) || (openSorted()[0] ? openSorted()[0].title : "");
+  renderRecap(); $("#dlgRecap").showModal();
+});
+$("#btnRecapAI").addEventListener("click", async () => {
+  const btn = $("#btnRecapAI"); setBusy(btn, true, "Writing recap…");
+  try {
+    const out = await askClaude(
+      `You write a warm, honest end-of-day recap for a busy builder. Be specific and brief. ` +
+      `Reply with ONLY JSON: {"summary":string,"wins":[string],"tomorrow":string,"note":string}. ` +
+      `"summary" is 1-2 sentences on how the day went. "wins" lists up to 5 short wins. "tomorrow" is the single best first task for tomorrow, starting with a verb. "note" is one encouraging sentence.`,
+      JSON.stringify(context()), 2500);
+    S.recaps[dayKey()] = Object.assign(S.recaps[dayKey()] || {}, out);
+    $("#rcTomorrow").value = out.tomorrow || $("#rcTomorrow").value;
+    save(); renderRecap(); render();
+  } catch (e) { console.warn(e); }
+  finally { setBusy(btn, false, "Ask Claude for a recap"); }
+});
+$("#btnRecapSave").addEventListener("click", () => {
+  const first = $("#rcTomorrow").value.trim();
+  S.recaps[dayKey()] = Object.assign(S.recaps[dayKey()] || {}, { tomorrow: first, closedAt: Date.now() });
+  if (first) {
+    // move the matching open task to tomorrow (keeping its details) instead of duplicating it
+    const orig = S.tasks.find(t => t.day === dayKey() && !t.done && sameTask(t.title, first));
+    if (orig) Object.assign(orig, { day: tomorrowKey(), order: -1, start: "", carried: false });
+    else addTask({ title: first, priority: "high" }, { day: tomorrowKey(), order: -1 });
+  }
+  save(); render(); $("#dlgRecap").close(); toast(first ? "Set. It'll be first on your list tomorrow." : "Day wrapped. See you tomorrow.");
+});
+
+// ---------- Dialog helpers, multi-window sync ----------
+document.addEventListener("click", e => { const b = e.target.closest("[data-close]"); if (b) b.closest("dialog").close("cancel"); });
+$("#rTitle").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); $("#btnRepeatAdd").click(); } });
+$("#rcTomorrow").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); $("#btnRecapSave").click(); } });
+// Two app windows open at once: reload whatever the other window saved.
+window.addEventListener("storage", e => { if (e.key === KEY) { S = load(); applyTheme(); render(); } });
+
+// ---------- Clock, day change ----------
+function tickClock() { $("#clock").textContent = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); }
+let lastDay = dayKey(), lastMin = nowMin();
+setInterval(() => {
+  if (dayKey() !== lastDay) { lastDay = dayKey(); rollover(); render(); return; }
+  if (nowMin() !== lastMin) { lastMin = nowMin(); tickClock(); renderTimeline(); }
+}, 5000);
+
+// ---------- Start ----------
+applyTheme(); rollover(); render(); scrollTimelineToNow();
+(function intro() {
+  const splash = $("#splash");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (S.settings.intro === false || reduce || /[?&]nointro/.test(location.search)) { splash.remove(); return; }
+  document.body.classList.add("intro");
+  $("#splashText").textContent = `${greeting()}, ${S.settings.name || DEFAULT_NAME}`;
+  const open = openSorted().length;
+  $("#splashSub").textContent = open ? `${open} thing${open > 1 ? "s" : ""} on your list today` : "Let's plan your day";
+  const close = () => { splash.classList.add("hide"); setTimeout(() => splash.remove(), 600); };
+  splash.addEventListener("click", close);
+  setTimeout(close, 1450);
+})();
+if (!S.settings.apiKey && !S.tasks.length && !S.projects.length) setTimeout(() => toast("Welcome! Open Settings to add your Claude API key and import your projects."), 2200);
+</script>
+<!--JRT-UPDATE:START (managed by shared/jrt-update; release.ps1 bumps the build number) -->
+<div id="jrt-update" role="status" aria-live="polite" hidden>
+  <span id="jrt-update-msg">A new version is ready.</span>
+  <button type="button" id="jrt-update-go">Update now</button>
+  <button type="button" id="jrt-update-later" aria-label="Later">Later</button>
+</div>
+<style>
+  #jrt-update{position:fixed;z-index:2147483000;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));
+    display:flex;align-items:center;gap:10px;max-width:min(440px,calc(100vw - 32px));padding:10px 10px 10px 16px;border-radius:14px;
+    background:#16130f;color:#f6f1ea;border:1px solid rgba(255,255,255,.14);box-shadow:0 10px 30px rgba(0,0,0,.35);
+    font:500 14px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif;transform:translateY(0);opacity:1;transition:transform .22s ease,opacity .22s ease}
+  #jrt-update[hidden]{display:none}
+  #jrt-update.jrt-enter{transform:translateY(12px);opacity:0}
+  #jrt-update-msg{flex:1;min-width:0}
+  #jrt-update button{min-height:44px;padding:0 14px;border-radius:10px;border:0;cursor:pointer;font:inherit;font-weight:600}
+  #jrt-update-go{background:#f08a3c;color:#1a0f05}
+  #jrt-update-go:disabled{opacity:.6;cursor:progress}
+  #jrt-update-later{background:transparent;color:#cfc6ba}
+  #jrt-update button:focus-visible{outline:2px solid #f6f1ea;outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){#jrt-update{transition:none}}
+</style>
+<script>
+(function () {
+  var APP = 'morning-brief', BUILD = 1 /*@JRT_BUILD@*/;
+  var VERSION_URL = 'https://raw.githubusercontent.com/Jrtorres13/' + APP + '/main/version.json';
+  var KEY = 'jrt-update:' + APP;
+  // The web copy (GitHub Pages) is always the newest already, and the phone can't run the PC updater.
+  var local = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+  if (!local) return;
+
+  var box = document.getElementById('jrt-update'), msg = document.getElementById('jrt-update-msg'),
+      go = document.getElementById('jrt-update-go'), later = document.getElementById('jrt-update-later');
+  function read() { try { return JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { return null; } }
+  function write(v) { try { v ? sessionStorage.setItem(KEY, JSON.stringify(v)) : sessionStorage.removeItem(KEY); } catch (e) {} }
+  function show(text, busy) {
+    msg.textContent = text; go.disabled = !!busy; go.hidden = false; later.hidden = !!busy;
+    if (box.hidden) { box.hidden = false; box.classList.add('jrt-enter'); requestAnimationFrame(function () { box.classList.remove('jrt-enter'); }); }
+  }
+
+  // After "Update now": the updater replaces the files, and this page reloads until it is the new version.
+  var pending = read();
+  if (pending && pending.target) {
+    if (BUILD >= pending.target) { write(null); show('Updated. Youâ€™re on the newest version.'); go.hidden = true; later.textContent = 'OK'; later.hidden = false; }
+    else if (Date.now() - pending.at < 120000) { show('Updatingâ€¦ this window refreshes by itself.', true); setTimeout(function () { location.reload(); }, 4000); return; }
+    else { write(null); show('The update didnâ€™t finish. Check the update window, or try again.'); }
+  }
+
+  var latest = null;
+  function check() {
+    fetch(VERSION_URL + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {
+      if (!v || !(v.build > BUILD) || localStorage.getItem(KEY + ':skip') == v.build) return;
+      latest = v;
+      show('A new version is ready' + (v.notes ? ': ' + v.notes : '.'));
+    }).catch(function () { /* offline: try again later */ });
+  }
+  go.onclick = function () {
+    if (!latest) return;
+    write({ target: latest.build, at: Date.now() });
+    show('Updatingâ€¦ this window refreshes by itself.', true);
+    location.href = 'jrtapp://update/' + APP;
+    setTimeout(function () { location.reload(); }, 6000);
+  };
+  later.onclick = function () { if (latest) try { localStorage.setItem(KEY + ':skip', latest.build); } catch (e) {} box.hidden = true; };
+  check();
+  setInterval(check, 6 * 3600 * 1000);
+})();
+</script>
+<!--JRT-UPDATE:END-->
+</body>
+</html>
