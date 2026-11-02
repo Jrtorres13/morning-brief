@@ -363,7 +363,7 @@ body.intro{--base:1.55s}
   <div class="field"><label for="sFeed">Claude feed key</label><input type="password" id="sFeed" placeholder="Paste the key Claude gave you" autocomplete="off">
     <span class="hint" id="sFeedHint">Unlocks your daily Claude feed for "Plan my day" and Refresh. No API, no cost. Stored only on this device.</span></div>
   <div class="field"><label for="sKey">Claude API key (optional)</label><input type="password" id="sKey" placeholder="sk-ant-…" autocomplete="off">
-    <span class="hint">Only for "Paste notes" and the recap. "Plan my day" does not need it.</span></div>
+    <span class="hint">With a key, Refresh asks Claude to re-plan from your newest work (a few cents each click). Also powers "Paste notes" and the recap. "Plan my day" stays free.</span></div>
   <div class="two">
     <div class="field"><label for="sStart">Work starts</label><input type="time" id="sStart"></div>
     <div class="field"><label for="sEnd">Work ends</label><input type="time" id="sEnd"></div>
@@ -1285,6 +1285,29 @@ function planFromFeed(f) {
   if (now && todayTasks().some(t => t.done && sameTask(t.title, now.title))) now = null; // already finished it today
   return { date: dayKey(), from: f.generated_at, now, suggestions: sugg, tip: String(f.tip || "") };
 }
+async function replanWithClaude() {
+  const ctx = context();
+  if (S.feed) ctx.claude_daily_review = { checked: agoTime(S.feed.generated_at), summary: S.feed.summary, recent_work: S.feed.activity, suggested_today: S.feed.suggestions };
+  if (S.live && S.live.length) ctx.latest_github_commits = S.live.map(c => ({ repo: c.project, what: c.what, when: agoTime(c.when) }));
+  let plan;
+  try {
+    plan = await askClaude(
+      `You are a calm, practical daily planner for a busy builder who runs many projects in Claude. ` +
+      `Using their open tasks, Claude's daily review of their work, their newest GitHub commits and projects, decide what they should do RIGHT NOW and what else belongs on today's list. ` +
+      `Weigh the newest activity most: if something was just finished, don't suggest it again. Prefer money work and finishing started work. Each task starts with a verb and is doable in one sitting. ` +
+      `Reply with ONLY this JSON: {"now":{"title":string,"why":string,"project":string},"suggestions":[{"title":string,"project":string,"priority":"high"|"med"|"low","minutes":number,"why":string}],"tip":string}. ` +
+      `"now.title" should match an existing open task title exactly when one fits. At most 6 suggestions, none duplicating open tasks. Keep each "why" under 15 words and "tip" to one sentence.`,
+      JSON.stringify(ctx));
+  } catch (e) { console.warn(e); return false; }
+  const p = planFromFeed({ now: plan.now, suggestions: plan.suggestions, tip: plan.tip, generated_at: new Date().toISOString() });
+  S.plan = p;
+  if (p.now) {
+    const match = openSorted().find(t => sameTask(t.title, p.now.title));
+    if (match) S.nowId = match.id;
+    else { addTask({ title: p.now.title, project: p.now.project, priority: "high" }); const t = openSorted().find(x => sameTask(x.title, p.now.title)); if (t) S.nowId = t.id; }
+  }
+  save(); return true;
+}
 function agoTime(ts) {
   if (!ts) return "";
   const m = Math.round((Date.now() - new Date(ts).getTime()) / 60000);
@@ -1295,6 +1318,14 @@ async function refreshAll(loud) {
   btn.disabled = true; ic.classList.add("spin"); if (loud) span.textContent = "Refreshing…";
   try {
     const [r, live] = await Promise.all([loadFeed(), loadLive().catch(() => false)]);
+    // With an API key, a Refresh click asks Claude to re-plan from the newest activity (a few cents).
+    if (loud && S.settings.apiKey) {
+      span.textContent = "Asking Claude…";
+      const ok = await replanWithClaude();
+      render();
+      if (ok) { toast("Claude re-planned your day from your newest work."); return; }
+      return; // askClaude already explained what went wrong
+    }
     // a plan made earlier today picks up the newest suggestions
     if (r.ok && S.plan && S.plan.date === dayKey()) { const fresh = planFromFeed(S.feed); S.plan.suggestions = fresh.suggestions; S.plan.tip = fresh.tip; S.plan.from = fresh.from; save(); }
     render();
@@ -1422,7 +1453,7 @@ refreshAll(false);
 </style>
 <script>
 (function () {
-  var APP = 'morning-brief', BUILD = 2 /*@JRT_BUILD@*/;
+  var APP = 'morning-brief', BUILD = 3 /*@JRT_BUILD@*/;
   var VERSION_URL = 'https://raw.githubusercontent.com/Jrtorres13/' + APP + '/main/version.json';
   var KEY = 'jrt-update:' + APP;
   // The web copy (GitHub Pages) is always the newest already, and the phone can't run the PC updater.

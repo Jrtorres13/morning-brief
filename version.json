@@ -1,5 +1,5 @@
 {
-    "build":  2,
-    "notes":  "Plan my day now reads your Claude work (no API), plus a Refresh button",
+    "build":  3,
+    "notes":  "Refresh now asks Claude to re-plan your day (uses your API key)",
     "date":  "2026-11-02"
 }
